@@ -41,7 +41,6 @@ def check_jump():
         bird.brain.inputs[2].value = walls_on_map[0].placeX
         bird.brain.inputs[3].value = walls_on_map[0].gapY
         bird.brain.calculate()
-        print(bird.brain.output)
         if not bird.brain.output > 0:
             bird.jump()
 
@@ -70,10 +69,13 @@ if __name__ == '__main__':
     gen = 0
     dead_birds = []
 
+
     pg.init()
 
     image = pg.image.load(".\\Images\\hape_head.png")
     image = pg.transform.scale(image, (BIRDSIZE + 5, BIRDSIZE + 5))
+    icon = pg.image.load(".\\Images\\hape_icon.png")
+    pg.display.set_icon(icon)
 
     # creating new window
     size = (SIZEX, SIZEY)
@@ -101,6 +103,8 @@ if __name__ == '__main__':
             14 based on 3rd
             8 based on 4th
             4 based on 5th
+            -----------------
+            99 birds overall
             """
             dead_birds = sorted(dead_birds, key=lambda x: x.score, reverse=True)
 
@@ -119,11 +123,13 @@ if __name__ == '__main__':
 
         while run:
 
+
             # checking for game events
             for event in pg.event.get():
                 if event.type == pg.QUIT:
                     pg.quit()
                     quit()
+
 
             if wall_countdown == 0:
                 walls_on_map.append(Wall())
@@ -174,11 +180,16 @@ if __name__ == '__main__':
             wall_countdown -= 1
 
             #  delay between loops
-            sleep(0.05)
+            # sleep(0.0001)
 
             #
             if bird_die_countdown <= 0:
                 run = False
+
+            if walls_passed == 10000:
+                birds = sorted(birds, key=lambda x: x.score, reverse=True)
+                birds[0].brain.print_weights()
+                quit()
 
         print(f'gen: {gen}, your score was: {walls_passed}')
 

@@ -31,5 +31,13 @@ class Brain:
         for n in self.lvl1:
             n.weight += num * n.weight
 
+    def print_weights(self):
+        print("**************************")
+        for i in self.inputs:
+            print(f'w: {i.weight}')
+        print("---------------------------")
+        for i in self.lvl1:
+            print(f'w: {i.weight}')
+        print("**************************")
 
 
